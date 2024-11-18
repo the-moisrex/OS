@@ -10,10 +10,16 @@
 
 .section .text
 .extern kernel_main
+.extern call_constructors
 .global loader
 
 loader:
     mov $kernel_stack, %esp
+
+    # Call C++ class constructors
+    call call_constructors
+
+    # Call kernel main
     push %eax # multi boot struct pointer
     push %ebx # magic number
     call kernel_main

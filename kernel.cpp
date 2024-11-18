@@ -10,11 +10,19 @@ void direct_printf(char const *str) noexcept {
   }
 }
 
+using constructor = void(*)();
+extern "C" constructor start_ctors;
+extern "C" constructor end_ctors;
+extern "C" void call_constructors() {
+    // Call C++ class constructors
+    for (constructor* ctor = &start_ctors; ctor != &end_ctors; ++ctor) {
+        (*ctor)();
+    }
+}
+
 extern "C" void kernel_main(void *multiboot_structure,
                             unsigned int magic_number) {
 
   direct_printf("Hello My Operating System\n");
 
-  for (;;)
-    ;
 }
