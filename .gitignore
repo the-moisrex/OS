@@ -33,3 +33,5 @@
 
 # Kernel.bin file and what not:
 *.bin
+/iso
+*.iso
